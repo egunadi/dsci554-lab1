@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>DSCI 554 Lab 1: Multi-line chart in Google sheets</title>
+  <link href="./node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css">
+
+  <link rel="stylesheet" href="./github-dark-dimmed.min.css">
+  <script src="./highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+</head>
+
+<body>
+  <h1>Multi-line chart in Google sheets</h1>
+
+  <h2>Get the data</h2>
+
+  <div>To download the daily <a target="_blank"
+      href="https://github.com/CSSEGISandData/COVID-19/blob/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv">confirmed
+      daily covid19 cases</a> from the <a target="_blank" href="https://github.com/CSSEGISandData/COVID-19">CCSE
+      dataset</a> there are a few alternatives:
+    <ul>
+      <li>With wget or curl:
+        <pre><code class="sh">wget https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv</code></pre>
+      </li>
+      <li>With the browser: go to <a target="_blank"
+          href="https://github.com/CSSEGISandData/COVID-19/blob/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv">confirmed
+          daily covid19 cases</a> GitHub file</li>
+      <li>With the GitHub VS Code interface (from the GitHub interface click <kbd>.</kbd> then <kbd>EXPLORER &gt; Right
+          click &gt; Download</kbd></li>
+    </ul>
+  
+    <h2>Load and format the data in Google Sheet</h2>
+
+    Import the csv file in Google Sheet with <kbd>File &gt; Import</kbd> (leaving `Convert text and numbers, dates,
+    and formulas` checked). This is the resulting <a target="_blank"
+    href="https://docs.google.com/spreadsheets/d/11ibE0McOyOH9o7HP-7o_21IEfFjuRqpLK6Q0rAtIIX8/edit?usp=sharing">Google
+    sheet</a>.
+  </div>
+
+  <div>You can create a multi-line chart by selecting the data and clicking on <kbd>Explore</kbd> in the status bar.</div>
+
+  <div>Alternatively we can unpivot the data then create the plot:
+    <ul>
+      <li>Select all the dates and <kbd>Format &gt; Number &gt; Plain text</kbd></li>
+      <li>Add rows to the sheet to fit the long format we need</li>
+      <li>Apply the formula to an empty cell in the first column:
+        <pre><code class="xls">=ARRAYFORMULA(
+        split(
+            flatten(
+              A2:A4&"|"&B1:AIX1&"|"&B2:AIX4
+            ),"|"
+        )
+    )</code></pre></li>
+    </ul>
+  </div>
+
+  <h2>Export the chart</h2>
+
+  From the <kbd>&vellip;</kbd> chart menu:
+  <ul>
+    <li>As an <code>iframe</code>: <kbd>&vellip; menu &rightarrow; Publish chart &rightarrow; Embed</kbd></li>
+    <li>As a scalable vector graphics (SVG) image: <kbd>&vellip; menu &rightarrow; Download &rightarrow; Scalable Vector Graphics (.svg)</kbd></li>    <li></li>
+  </ul>
+
+  <h1>🧪 Data wrangling in Python</h1>
+
+  We can use pandas.melt to filter and unpivot the data (i.e., put the data in long format) and export in csv.
+
+  <p>
+    Jupyter notebook code:
+    <pre><code class="python">import pandas as pd
+df = pd.read_csv('time_series_covid19_confirmed_global.csv')
+new_df = df[df['Country/Region'].isin(['Australia','China','France','Germany','India','Japan','Korea, South','Russia','US','UK'])]
+unpivot_df = new_df.melt(id_vars = ['Province/State','Country/Region','Lat','Long'], var_name = 'Date', value_name = 'Number')
+unpivot_df.to_csv('./unpivoted.csv', index=False)
+</code></pre>
+  </p>
+
+  <div><a target="_blank" href="./index.html">⬅ Back to TOC</a></div>
+</body>
+
+</html>

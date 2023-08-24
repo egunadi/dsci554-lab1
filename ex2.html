@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>DSCI 554 Lab 1 ex2</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="../node_modules/highlightjs/styles/github.css">
+  <script src="../node_modules/highlightjs/highlight.pack.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+<body>
+  <h1>🏋🏽‍♂️ ex2: Implement a Google Charts pie chart</h1>
+
+  <h2>Workflow</h2>
+  The workflow for using reusable charts is:
+  <ol>
+    <li>Read <a target="_blank" href="https://developers.google.com/chart/interactive/docs/quick_start">Google
+        Charts Quick Start page</a></li>
+    <li>Understand the data layout</li>
+    <li>Implement the chart from an example to make sure it works</li>
+    <li>Update the chart to use the data</li>
+    <li>Customize the chart to your needs</li>
+  </ol>
+
+  <h2>Google Charts Quick Start Example</h2>
+
+  <div>
+    <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+
+      // Load the Visualization API and the corechart package.
+      google.charts.load('current', { 'packages': ['corechart'] });
+
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.charts.setOnLoadCallback(drawChart);
+
+      // Callback that creates and populates a data table,
+      // instantiates the pie chart, passes in the data and
+      // draws it.
+      function drawChart() {
+
+        // Create the data table.
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Topping');
+        data.addColumn('number', 'Slices');
+        data.addRows([
+          ['Mushrooms', 3],
+          ['Onions', 1],
+          ['Olives', 1],
+          ['Zucchini', 1],
+          ['Pepperoni', 2]
+        ]);
+
+        // Set chart options
+        var options = {
+          'title': 'How Much Pizza I Ate Last Night',
+          'width': 400,
+          'height': 300
+        };
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+    </script>
+
+    <!--Div that will hold the pie chart-->
+    <div id="chart_div"></div>
+
+    <h2>Pie chart with our data</h2>
+    <p>
+      Using these countries:
+    <ol>
+      <li>Brazil</li>
+      <li>Canada</li>
+      <li>Israel</li>
+      <li>Italy</li>
+      <li>Mexico</li>
+      <li>Netherlands</li>
+      <li>US</li>
+      <li>United Arab Emirates</li>
+      <li>Philippines</li>
+      <li>United Kingdom</li>
+    </ol>
+    </p>
+
+    <p>
+      Pie chart in google sheet <a target="_blank"
+        href="https://docs.google.com/spreadsheets/d/185agVzK-UJmIaSPAUFhlJ-zSmdFkvA_2EgDjvLkIW9k/edit?usp=sharing">here</a>.
+      <br>With pie charts the statistic transformation (% calculation) is computed automatically!
+    </p>
+
+    <!--Load the AJAX API-->
+    <script type="text/javascript">
+      // Load the Visualization API and the corechart package.
+      google.charts.load('current', { 'packages': ['corechart'] });
+
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.charts.setOnLoadCallback(drawCountryChart);
+
+      // Callback that creates and populates a data table,
+      // instantiates the pie chart, passes in the data and
+      // draws it.
+      function drawCountryChart() {
+
+        // Create the data table.
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Country');
+        data.addColumn('number', 'Exposed');
+        data.addRows([
+          ['Brazil', 3669995],
+          ['Canada', 13083],
+          ['Israel', 106460],
+          ['Italy', 261174],
+          ['Mexico', 568621],
+          ['Netherlands', 408],
+          ['Philippines', 197164],
+          ['US', 5777710],
+          ['United Arab Emirates', 67621],
+          ['United Kingdom', 327798],
+        ]);
+
+        // Set chart options
+        var options = {
+          'title': 'Exposure to COVID-19 by Country',
+          'width': 400,
+          'height': 300
+        };
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.PieChart(document.getElementById('countrychart_div'));
+        chart.draw(data, options);
+      }
+    </script>
+
+    <div id="countrychart_div"></div>
+  </div>
+
+</body>
+
+</html>
